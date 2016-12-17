@@ -13,11 +13,8 @@
 	Background="Transparent"
 	WindowStartupLocation="CenterScreen">
 	<Window.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="Cairo.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-			<self:MessageBoxImageConverter x:Key="MessageBoxImageConverter" />
+        <ResourceDictionary>
+            <self:MessageBoxImageConverter x:Key="MessageBoxImageConverter" />
 			<self:MessageBoxButtonConverter x:Key="MessageBoxButtonConverter" />
 		</ResourceDictionary>
 	</Window.Resources>
@@ -32,7 +29,7 @@
 					<LinearGradientBrush.GradientStops>
 						<GradientStop Color="#FFFFFFFF"
 					Offset="0" />
-						<GradientStop Color="#FFEFEFEF"
+						<GradientStop Color="#FFF0F0F0"
 					Offset="1" />
 					</LinearGradientBrush.GradientStops>
 				</LinearGradientBrush>

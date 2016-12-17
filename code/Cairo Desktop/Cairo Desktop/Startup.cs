@@ -4,10 +4,10 @@
     using System.Diagnostics;
     using System.Windows;
     using Microsoft.Win32;
-    using System.Windows.Interop;
     using Interop;
     using System.Collections.Generic;
     using System.Windows.Threading;
+    using System.Windows.Markup;
 
     /// <summary>
     /// Handles the startup of the application, including ensuring that only a single instance is running.
@@ -56,6 +56,10 @@
             }
             #endregion
 
+            // Show a splash screen while WPF inits
+            SplashScreen splash = new SplashScreen("Resources/loadSplash.png");
+            splash.Show(false, true);
+
             #region some real shell code
             int hShellReadyEvent;
 
@@ -103,10 +107,17 @@
             DeskParent = _desktopWindow;
 
             App app = new App();
+            app.InitializeComponent();
+
+            // Set custom theme if selected
+            string theme = CairoDesktop.Properties.Settings.Default.CairoTheme;
+            if (theme != "Default")
+                if (System.IO.File.Exists(AppDomain.CurrentDomain.BaseDirectory + theme)) app.Resources.MergedDictionaries.Add((ResourceDictionary)XamlReader.Load(System.Xml.XmlReader.Create(AppDomain.CurrentDomain.BaseDirectory + theme)));
+
 
             MenuBarWindow = new MenuBar() { Owner = _parentWindow };
-            MenuBarWindow.Show();
             app.MainWindow = MenuBarWindow;
+            MenuBarWindow.Show();
 
             if (Properties.Settings.Default.EnableDesktop)
             {
@@ -138,6 +149,9 @@
             {
                 RunStartupApps();
             }
+
+            // Close the splash screen
+            splash.Close(new TimeSpan(0, 0, 0, 0, 800));
 
             app.Run();
         }
